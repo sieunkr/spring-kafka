@@ -35,6 +35,7 @@ public class ReceiverConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "helloworld");
         // automatically reset the offset to the earliest offset
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "10");
 
         return props;
     }
@@ -50,11 +51,19 @@ public class ReceiverConfig {
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
 
+        //Consumer Concurrency..
+        factory.setConcurrency(5);
+        factory.setBatchListener(true);
         return factory;
     }
 
     @Bean
     public Receiver receiver() {
         return new Receiver();
+    }
+
+    @Bean
+    public BatchReceiver batchReceiver() {
+        return new BatchReceiver();
     }
 }

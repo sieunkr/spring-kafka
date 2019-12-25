@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          #auto-add-partitions: true
+          brokers: 192.168.19.136:9092
+      bindings:
+        functioninput-in-0:
+          destination: batch-coffee
+          contentType: application/json
+          consumer:
+            batch-mode: true
+            concurrency: 1
+            ackEachRecord: false
+            configuration:
+              max:
+                poll:
+                  records: 300
+server:
+  port: 8777

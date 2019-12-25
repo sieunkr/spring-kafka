@@ -18,6 +18,14 @@ public class DemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        kafkaTemplate.send("coffee", "latte11");
+        //kafkaTemplate.send("coffee", "latte11");
+
+        //kafkaTemplate.send("batch-coffee", "test01");
+
+        for(int i = 0; i < 500; i++){
+            kafkaTemplate.send("batch-coffee", Coffee.builder().name("coffee."+i).price(900).build());
+        }
+
+
     }
 }
