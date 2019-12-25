@@ -18,6 +18,6 @@ public class DemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        kafkaTemplate.send("peter-topic", "hi");
+        kafkaTemplate.send("food", "orange");
     }
 }
