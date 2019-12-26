@@ -1,18 +1,21 @@
 package com.example.demo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
 
-
+@Component
+@RequiredArgsConstructor
 public class Sender {
 
-    @Autowired
-    private KafkaTemplate<String, Coffee> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Coffee> coffeeKafkaTemplate;
 
-    public void send(Coffee coffee) {
-        kafkaTemplate.send("batch-coffee", coffee);
+    void sendMessage(String message){
+        kafkaTemplate.send("coffee", message);
+    }
+
+    void sendCoffee(Coffee coffee) {
+        coffeeKafkaTemplate.send("batch-coffee", coffee);
     }
 }

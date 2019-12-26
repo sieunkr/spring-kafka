@@ -17,11 +17,22 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 @Configuration
 public class SenderConfig {
 
+
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Bean
-    public Map<String, Object> producerConfigs() {
+    public Map<String, Object> stringProducerConfigs() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+
+        return props;
+    }
+
+    @Bean
+    public Map<String, Object> coffeeProducerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -31,17 +42,22 @@ public class SenderConfig {
     }
 
     @Bean
-    public ProducerFactory<String, Coffee> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    public ProducerFactory<String, String> stringProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(stringProducerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, Coffee> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public ProducerFactory<String, Coffee> coffeeProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(coffeeProducerConfigs());
     }
 
     @Bean
-    public Sender sender() {
-        return new Sender();
+    public KafkaTemplate<String, String> stringKafkaTemplate() {
+        return new KafkaTemplate<>(stringProducerFactory());
+    }
+
+    @Bean
+    public KafkaTemplate<String, Coffee> coffeeKafkaTemplate() {
+        return new KafkaTemplate<>(coffeeProducerFactory());
     }
 }
