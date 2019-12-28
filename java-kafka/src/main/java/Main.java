@@ -8,27 +8,29 @@ import java.util.Properties;
 public class Main {
 
     private static final String TOPIC_NAME = "coffee";
+    private static final String KAFKA_BROKER_IP = "192.168.19.136:9092";
 
     public static void main(String[] args) {
 
         Properties properties = new Properties();
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.19.136:9092");
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-        KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
+        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER_IP);
+        properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-        ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, "message...");
+        KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(TOPIC_NAME, "message...");
+
         try {
-            producer.send(record, (metadata, exception) -> {
+            kafkaProducer.send(producerRecord, (metadata, exception) -> {
                 if (exception != null) {
-
+                    System.out.println("exception!");
                 }
             });
         } catch (Exception e) {
             System.out.println("Exception");
         } finally {
-            producer.flush();
+            kafkaProducer.flush();
         }
     }
 }

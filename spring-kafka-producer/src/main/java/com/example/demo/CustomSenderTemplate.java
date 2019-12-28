@@ -6,16 +6,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class Sender {
+public class CustomSenderTemplate {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final KafkaTemplate<String, Coffee> coffeeKafkaTemplate;
+    private final KafkaTemplate<String, CoffeeDTO> coffeeDTOKafkaTemplate;
 
-    void sendMessage(String message){
+    void sendCoffee(String message){
         kafkaTemplate.send("coffee", message);
     }
 
-    void sendCoffee(Coffee coffee) {
-        coffeeKafkaTemplate.send("batch-coffee", coffee);
+    void sendCoffeeDTO(CoffeeDTO coffee) {
+        coffeeDTOKafkaTemplate.send("coffee-dto", coffee);
     }
 }

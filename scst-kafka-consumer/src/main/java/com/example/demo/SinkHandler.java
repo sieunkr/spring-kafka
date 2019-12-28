@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 public class SinkHandler {
 
     @Bean
-    Consumer<List<Coffee>> functionInput(){
+    Consumer<List<CoffeeDTO>> functionInput(){
         return r -> {
             //System.out.println("abc");
             log.info(String.valueOf(r.size()));

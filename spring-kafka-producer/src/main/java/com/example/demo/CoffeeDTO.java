@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Coffee {
+public class CoffeeDTO {
     private String name;
     private Integer price;
 }
