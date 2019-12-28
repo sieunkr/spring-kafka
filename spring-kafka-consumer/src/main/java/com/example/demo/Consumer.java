@@ -29,7 +29,8 @@ public class Consumer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        log.info(String.valueOf(payload.size()));
+        payload.forEach(coffeeDTO -> log.info(coffeeDTO.getName()));
+        log.info("Batch Message Size : " + payload.size());
     }
 
 }

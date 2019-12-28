@@ -51,31 +51,9 @@ public class ConsumerConfiguration {
         ConcurrentKafkaListenerContainerFactory<String, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(stringConsumerFactory());
+        factory.setConcurrency(5);
         return factory;
     }
-
-
-
-    /*
-        test 1 : 단일 1, 단일 메시지 수신, 컨슈머 1
-            아무 설정 하지 않음
-        */
-
-
-        /*
-        test 2 : 파티션 1, 단일 메시지 수신, 컨슈머 10
-            factory.setConcurrency(10);
-        */
-
-        /*
-        test 3 : 파티션 5, 컨슈머 10
-            factory.setConcurrency(10);
-        */
-
-        /*
-        test 4 : 파티션 1, Batch
-        factory.setBatchListener(true);
-        */
 
     @Bean
     public Map<String, Object> coffeeDTOConsumerConfigs() {
@@ -86,7 +64,7 @@ public class ConsumerConfiguration {
         //props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "eddy");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "100");
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "500");
         return props;
     }
 

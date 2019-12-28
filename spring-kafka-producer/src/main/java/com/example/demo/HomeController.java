@@ -35,7 +35,7 @@ public class HomeController {
     @GetMapping("/batch-dto")
     public String batchCoffeeDTO(){
 
-        IntStream.rangeClosed(1, 100).forEach(i -> {
+        IntStream.rangeClosed(1, 1000).forEach(i -> {
             customSenderTemplate.sendCoffeeDTO(CoffeeDTO.builder().name("coffeeDTO:" + i).price(1000).build());
         });
 
