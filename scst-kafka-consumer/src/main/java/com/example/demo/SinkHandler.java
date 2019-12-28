@@ -14,8 +14,13 @@ public class SinkHandler {
     @Bean
     Consumer<List<CoffeeDTO>> functionInput(){
         return r -> {
-            //System.out.println("abc");
-            log.info(String.valueOf(r.size()));
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            r.forEach(coffeeDTO -> log.info(coffeeDTO.getName()));
+            log.info("Batch Message Size : " + r.size());
         };
     }
 

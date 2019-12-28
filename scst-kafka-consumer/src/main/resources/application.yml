@@ -13,9 +13,5 @@ spring:
             batch-mode: true
             concurrency: 1
             ackEachRecord: false
-            configuration:
-              max:
-                poll:
-                  records: 300
 server:
   port: 8083
